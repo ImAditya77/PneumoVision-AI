@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 import json
 import mimetypes
+import os
 import traceback
 
 from database.db import init_db
@@ -14,8 +15,8 @@ from routes.reports import handle_report
 ROOT = Path(__file__).resolve().parents[1]
 FRONTEND = ROOT / "frontend"
 STATIC_ROOT = FRONTEND
-HOST = "127.0.0.1"
-PORT = 5000
+HOST = os.environ.get("HOST", "0.0.0.0")
+PORT = int(os.environ.get("PORT", "5000"))
 
 
 class PneumoVisionHandler(BaseHTTPRequestHandler):
@@ -101,10 +102,9 @@ def main():
     ensure_directories()
     init_db()
     server = ThreadingHTTPServer((HOST, PORT), PneumoVisionHandler)
-    print(f"PneumoVision AI running at http://localhost:{PORT}")
+    print(f"PneumoVision AI running on {HOST}:{PORT}")
     server.serve_forever()
 
 
 if __name__ == "__main__":
     main()
-
