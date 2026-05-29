@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PneumoVision AI</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Clinical imaging assistant</p>
+        <h1>PneumoVision AI</h1>
+      </div>
+      <nav>
+        <button class="nav-button active" data-view="predict">Upload</button>
+        <button class="nav-button" data-view="dashboard">Dashboard</button>
+        <button class="nav-button" data-view="history">History</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="predict" class="view active">
+        <div class="workspace-grid">
+          <form id="prediction-form" class="panel upload-panel">
+            <div class="panel-heading">
+              <p class="eyebrow">New screening</p>
+              <h2>Upload chest X-ray</h2>
+            </div>
+            <label>
+              Patient name
+              <input name="patientName" placeholder="Anonymous Patient" />
+            </label>
+            <div class="form-row">
+              <label>
+                Age
+                <input name="age" type="number" min="0" max="130" placeholder="42" />
+              </label>
+              <label>
+                Gender
+                <select name="gender">
+                  <option value="Not specified">Not specified</option>
+                  <option>Female</option>
+                  <option>Male</option>
+                  <option>Other</option>
+                </select>
+              </label>
+            </div>
+            <label class="drop-zone" id="drop-zone">
+              <input id="image-input" name="image" type="file" accept="image/png,image/jpeg" required />
+              <span id="file-label">Choose or drop a JPG/PNG chest X-ray</span>
+            </label>
+            <button class="primary-button" type="submit">Run Prediction</button>
+            <p id="form-message" class="message"></p>
+          </form>
+
+          <section class="panel result-panel" id="result-panel">
+            <div class="empty-state">
+              <span class="pulse"></span>
+              <h2>Awaiting image</h2>
+              <p>Prediction results and the heatmap overlay will appear here.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="dashboard" class="view">
+        <div class="stats-grid">
+          <article class="stat"><span>Total</span><strong id="stat-total">0</strong></article>
+          <article class="stat"><span>Normal</span><strong id="stat-normal">0</strong></article>
+          <article class="stat"><span>Pneumonia</span><strong id="stat-pneumonia">0</strong></article>
+          <article class="stat"><span>Avg. confidence</span><strong id="stat-confidence">0%</strong></article>
+        </div>
+        <section class="panel chart-panel">
+          <h2>Case distribution</h2>
+          <div class="bar-chart">
+            <div><span id="normal-bar"></span><label>Normal</label></div>
+            <div><span id="pneumonia-bar"></span><label>Pneumonia</label></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="history" class="view">
+        <section class="panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Saved records</p>
+            <h2>Prediction History</h2>
+          </div>
+          <div id="history-list" class="history-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/src/app.js"></script>
+  </body>
+</html>
+
